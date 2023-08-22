@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI
 from reactpy.backend.fastapi import configure
 from reactpy import component, event, html, use_state
@@ -6,9 +5,10 @@ import reactpy as rp
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 
+
 @component
-def MYCrud():
-    ##Creating state
+def MyCrud():
+    ## Creating state
     alltodo = use_state([])
     name, set_name = use_state("")
     password, set_password = use_state(0)
@@ -20,14 +20,16 @@ def MYCrud():
         alltodo.set_value(alltodo.value + [newtodo])
         login(newtodo)  # function call to login function using the submitted data
 
-    list=[
-         html.li(
-        {
+    # looping data from alltodo to show on web
 
-        },
-        f"{b} => {i['name']} ; {i['password']} ",
-    )
-    for b, i in enumerate (alltodo.value)
+    list = [
+        html.li(
+            {
+              
+            },
+            f"{b} => {i['name']} ; {i['password']} ",
+        )
+        for b, i in enumerate(alltodo.value)
     ]
 
     def handle_event(event):
@@ -69,4 +71,3 @@ def MYCrud():
 
 
 app = FastAPI()
-
