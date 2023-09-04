@@ -70,3 +70,40 @@ def MYCrud():
 
 app = FastAPI()
 
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+
+#copy and paste the Mongodb URI
+uri="mongodb+srv://admin1:admin123@reactpy-task01.5yrzwzs.mongodb.net/"
+client=MongoClient(uri, Server_Api=ServerApi("1"))
+
+#defining the database name and collection
+db= client["Reactpy_task01"]
+collection=db["Test"]
+
+#checking the connection
+try:
+    client.admin.command("ping")
+    print("Pinged your deployment. You Successfully connected to MongoDB")
+except Exception as e:
+    print(e)
+
+def login(
+        login_data: dict,
+): #removed async, since await makes code execution pause for the promise to resolve anyway. doesn't 
+    username = login_data["name"]
+    password = login_data["password"]
+
+   #Create a document to insert into the collection
+    document = {"name": username, "password": password}
+
+    #logger .info('sample log message')
+    print(document)
+
+    #insert the document into the collection
+    post_id = collection.insert_one(document).inserted_id #inseert document
+    print (post_id)
+
+    return {"Message": "Login Successful"}
+
+configure(app, MYCrud)
